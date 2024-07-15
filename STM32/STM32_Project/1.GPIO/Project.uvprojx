@@ -544,6 +544,16 @@
               <FileType>1</FileType>
               <FilePath>.\Hareware\LightSensor.c</FilePath>
             </File>
+            <File>
+              <FileName>OLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hareware\OLED.c</FilePath>
+            </File>
+            <File>
+              <FileName>OLED_Font.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hareware\OLED_Font.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -6,6 +6,7 @@
 #include "key.h"
 #include "LED.h"
 #include "LightSensor.h"
+#include "OLED.h"
 
 
 #endif
