@@ -54,6 +54,14 @@ void Encoder_Init(void)
 
 int16_t Encoder_Count = 0;
 
+int16_t Encoder_Get(void)
+{
+	int16_t temp = Encoder_Count;
+	Encoder_Count = 0;
+	
+	return temp;
+}
+
 void EXTI0_IRQHandler(void)
 {
 	if (EXTI_GetITStatus(EXTI_Linex0) == SET)
@@ -76,12 +84,4 @@ void EXTI1_IRQHandler(void)
 		}
 		EXTI_ClearITPendingBit(EXTI_Linex1);
 	}
-}
-
-int16_t Encoder_Get(void)
-{
-	int16_t temp = Encoder_Count;
-	Encoder_Count = 0;
-	
-	return temp;
 }

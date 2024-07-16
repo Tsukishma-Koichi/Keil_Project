@@ -17,6 +17,6 @@ int main(void)
 	while (1)
 	{
 		Num += Encoder_Get();				//获取自上此调用此函数后，旋转编码器的增量值，并将增量值加到Num上
-		OLED_ShowSignedNum(1, 5, Num, 5);	//显示Num
+		OLED_ShowSignedNum(1, 5, Num, 6);	//显示Num
 	}
 }
