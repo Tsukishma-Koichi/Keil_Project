@@ -1,26 +1,20 @@
 #include "Public.h"
 
-int16_t Speed;
+uint16_t ADValue;
 
 int main(void)
 {
 	OLED_Init();
-	Timer_Init();
-	EncoderInf_Init();
+	AD_Init();
 	
-	OLED_ShowString(1, 1, "Speed:");
-	
+	OLED_ShowString(1, 1, "AD0:");
+								  
 	while (1)
 	{
-		OLED_ShowSignedNum(1, 7, Speed, 5);
+		AD_GetValue();
+		OLED_ShowNum(1, 5, AD_Value[0], 4);
+		
+		Delay_ms(100);
 	}
 }
 
-void TIM2_IRQHandler(void)
-{
-	if (TIM_GetITStatus(TIM2, TIM_IT_Update) == SET)
-	{
-		Speed = EncoderInf_Get();
-		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
-	}
-}

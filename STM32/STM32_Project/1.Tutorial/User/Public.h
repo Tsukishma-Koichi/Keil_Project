@@ -15,5 +15,7 @@
 #include "Motor.h"
 #include "IC.h"
 #include "EncoderInf.h"
+#include "AD.h"
+#include "MyDMA.h"
 
 #endif
