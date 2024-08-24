@@ -18,4 +18,6 @@
 #include "AD.h"
 #include "MyDMA.h"
 
+#include "Serial.h"
+
 #endif

@@ -1,20 +1,24 @@
 #include "Public.h"
 
-uint16_t ADValue;
+uint8_t RxData;
+
 
 int main(void)
 {
 	OLED_Init();
-	AD_Init();
+	Serial_Init();
 	
-	OLED_ShowString(1, 1, "AD0:");
+	OLED_ShowString(1, 1, "RxData:");
 								  
 	while (1)
 	{
-		AD_GetValue();
-		OLED_ShowNum(1, 5, AD_Value[0], 4);
-		
-		Delay_ms(100);
+		if (Serial_GetRxFlag() == 1)
+		{
+			
+			RxData = Serial_GetRxData();
+			Serial_SendByte(RxData);
+			OLED_ShowHexNum(1, 8, RxData, 2);
+		}
 	}
 }
 
