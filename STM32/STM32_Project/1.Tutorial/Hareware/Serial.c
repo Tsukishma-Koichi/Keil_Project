@@ -1,6 +1,7 @@
 #include "Serial.h"
 
-uint8_t Serial_RxData;
+uint8_t Serial_TxPacket[4];
+uint8_t Serial_RxPacket[4];
 uint8_t Serial_RxFlag;
 
 void Serial_Init(void)
@@ -85,13 +86,7 @@ void Serial_SendNumber(uint32_t Number, uint8_t Length)
 		Serial_SendByte(Number / Serial_Pow(10, Length - i - 1) % 10 + '0');
 	}
 }
-/*
-int fputc(int ch, FILE *f)
-{
-	Serial_SendByte(ch);
-	return ch;
-}
-*/
+
 void Serial_Printf(char *format, ...)
 {
 	char String[100];
@@ -113,17 +108,45 @@ uint8_t Serial_GetRxFlag(void)
 	return 0;
 }
 
-uint8_t Serial_GetRxData(void)
+void Serial_SendPacket(void)
 {
-	return Serial_RxData;
+	Serial_SendByte(0xFF);
+	Serial_SendArray(Serial_TxPacket, 4);
+	Serial_SendByte(0xFE);
 }
 
 void USART1_IRQHandler(void)
 {
+	static uint8_t RxState = 0;
+	static uint8_t pRxPacket = 0;
 	if (USART_GetITStatus(USART1, USART_IT_RXNE))
 	{
-		Serial_RxData = USART_ReceiveData(USART1);
-		Serial_RxFlag = 1;
+		uint8_t RxData = USART_ReceiveData(USART1);
+		if (RxState == 0)
+		{
+			if (RxData == 0xFF)
+			{
+				RxState = 1;
+				pRxPacket = 0;
+			}
+		}
+		else if (RxState == 1)
+		{
+			Serial_RxPacket[pRxPacket] = RxData;
+			pRxPacket++;
+			if (pRxPacket >= 4)
+			{
+				RxState = 2;
+			}
+		}
+		else if (RxState == 2)
+		{
+			if (RxData == 0xFE)
+			{
+				RxState = 0;
+				Serial_RxFlag = 1;
+			}
+		}
 		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
 	}
 }

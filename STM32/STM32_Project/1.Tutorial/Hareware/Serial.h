@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-extern uint8_t Serial_RxData;
-extern uint8_t Serial_RxFlag;
+extern uint8_t Serial_TxPacket[4];
+extern uint8_t Serial_RxPacket[4];
 
 void Serial_Init(void);
 void Serial_SendByte(uint8_t Byte);
@@ -16,8 +16,10 @@ uint32_t Serial_Pow(uint32_t X, uint32_t Y);
 void Serial_SendNumber(uint32_t Number, uint8_t Length);
 void Serial_Printf(char *format, ...);
 
+void Serial_SendPacket(void);
+
 uint8_t Serial_GetRxFlag(void);
-uint8_t Serial_GetRxData(void);
+
 
 
 #endif
